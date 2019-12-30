@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>AdminLite</title>
+    <title>权限管理系统</title>
     <meta content='width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no' name='viewport'>
     <link href="<?php echo base_url()?>static/css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
     <link href="<?php echo base_url()?>static/css/font-awesome.min.css" rel="stylesheet" type="text/css"/>
@@ -215,7 +215,7 @@
 <body class="skin-blue">
 <header class="header">
     <a href="<?php echo site_url('admin/index')?>" class="logo">
-        综合管理系统
+        权限管理系统
     </a>
     <nav class="navbar navbar-<?php echo base_url()?>static-top" role="navigation" style="border-radius: 0;">
         <a href="#" class="navbar-btn sidebar-toggle" data-toggle="offcanvas" role="button">

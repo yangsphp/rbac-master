@@ -85,8 +85,8 @@ class Admin extends MY_Controller
                 $post['password'] = md5(md5($post['password']).$post['salt']);
             }else{
                 unset($post['password']);
-                unset($post['rpassword']);
             }
+            unset($post['rpassword']);
             //修改
             $post['id'] = $id;
             $result = $this->admin_model->update($post);

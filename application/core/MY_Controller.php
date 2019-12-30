@@ -54,37 +54,8 @@ class MY_Controller extends CI_Controller
             $where .= " and id in({$role['auth']})";
         }
         $data = $this->db->where($where)->order_by("sort", "asc")->get($_auth)->result_array();
-
         $menuList = $this->getMenuTree($data);
         $user['role_name'] = $role['role_name'];
-        //权限控制
-//        $menu = array(
-//            0 => array(
-//                "name" => "权限控制",
-//                "url" => "#",
-//                "icon" => "",
-//                "submenu" => array(
-//                    0 => array(
-//                        "name" => "权限管理",
-//                        "url" => site_url('admin/auth/index?_=0_0'),
-//                        "icon" => "",
-//                        "submenu" => array()
-//                    ),
-//                    1 => array(
-//                        "name" => "角色管理",
-//                        "url" => site_url('admin/auth/index?_=0_1'),
-//                        "icon" => "",
-//                        "submenu" => array()
-//                    ),
-//                    2 => array(
-//                            "name" => "管理员管理",
-//                        "url" => site_url('admin/auth/index?_=0_2'),
-//                        "icon" => "",
-//                        "submenu" => array()
-//                    ),
-//                )
-//            ),
-//        );
         $this->session->set_userdata("menuList", $menuList);
         $this->session->set_userdata("user", $user);
     }

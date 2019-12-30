@@ -87,7 +87,7 @@ class Common_model extends CI_Model
         if ($order) {
             $this->db->order_by($order[0], $order[1]);
         }
-        if ($limit[0] && $limit[1]) {
+        if ($limit[0] || $limit[1]) {
             $this->db->limit((int)$limit[1], (int)$limit[0]);
         }
         if ($group) {

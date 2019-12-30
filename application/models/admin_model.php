@@ -63,7 +63,6 @@ class Admin_model extends Common_model
     public function delete($id)
     {
         return $this->db->delete($this->_admin, array("id" => $id));
-         array("code" => 0, "msg" => "");
     }
 
     public function login($post)

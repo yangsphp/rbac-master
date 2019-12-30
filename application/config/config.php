@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://www.rbac.com';
+$config['base_url'] = 'http://localhost/rbacb/';
 
 /*
 |--------------------------------------------------------------------------
@@ -454,7 +454,9 @@ $config['csrf_cookie_name'] = 'csrf_cookie_yang';
 $config['csrf_expire'] = 7200;
 $config['csrf_regenerate'] = false;
 $config['csrf_exclude_uris'] = array(
-    '.*/get'
+    '.*/get',
+    '.*/api/login',
+    '.*/getMessage'
 );
 
 /*
