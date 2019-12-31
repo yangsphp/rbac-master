@@ -12,7 +12,7 @@
 
 - 修改config.php
 
-- 添加我的微信（yangyang92428）获取数据库
+- 添加我的微信（yangyang92428）捐赠获取数据库
 
 
 具体设计可查看我的博客：[PHP + CI框架 + AdminLITE权限管理系统](https://www.cnblogs.com/yang-2018/p/11584974.html)
