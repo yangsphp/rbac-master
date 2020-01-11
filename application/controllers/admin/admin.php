@@ -108,7 +108,12 @@ class Admin extends MY_Controller
         }
     }
 
-    public function delete() {
+    public function edit_op()
+    {
+        $this->add_op();
+    }
+
+    public function delete_op() {
         $id = $this->input->get("id");
         $result = $this->admin_model->delete($id);
         if ($result) {

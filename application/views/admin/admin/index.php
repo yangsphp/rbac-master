@@ -11,24 +11,25 @@
 <section class="content">
     <div class="row">
         <div class="col-xs-12">
-            <div class="box box-primary">
-                <div class="box-header" style="border-bottom: 1px solid #ddd;padding-top: 10px;">
-                    <h3 class="box-title">
-                        <button class="btn btn-primary btn-xs" onclick="showModal()">
-                            <i class="fa fa-plus"></i>
-                            添加管理员
-                        </button>
-                    </h3>
-                    <div class="box-tools" style="padding: 10px">
-                        <div class="input-group">
+            <div class="box box-solid">
+                <div class="box-body">
+                    <button class="btn btn-primary btn-sm btn-flat" onclick="showModal()">
+                        <i class="fa fa-plus"></i>
+                        添加管理员
+                    </button>
+                    <div class="input-group" style="display: inline-flex;float:right;">
                             <input type="text" id="keyword" name="table_search" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search">
                             <div class="input-group-btn">
                                 <button class="btn btn-sm btn-default" onclick="search()"><i class="fa fa-search"></i></button>
                             </div>
                         </div>
-                    </div>
                 </div>
-
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-solid">
                 <div class="box-body">
                     <table style="" id="adminTable" class="table table-hover radius" cellspacing="0" width="100%">
                         <thead>
@@ -47,7 +48,7 @@
 
                         </tbody>
                     </table>
-                </div><!-- /.box-body-->
+                </div>
             </div>
         </div>
     </div>
@@ -108,8 +109,8 @@
                     if (mdata.id == 1){
                         disabled = "disabled='true'"
                     }
-                    html += ' <button type="button" '+disabled+' class="btn btn-info btn-xs my-btn" onclick="showModal(' + mdata.id + ')">修改</button>';
-                    html += ' <button type="button" '+disabled+' class="btn btn-danger btn-xs my-btn" onclick="del(' + mdata.id + ')">删除</button>';
+                    html += ' <button type="button" '+disabled+' class="btn btn-info btn-xs my-btn btn-flat" onclick="showModal(' + mdata.id + ')">修改</button>';
+                    html += ' <button type="button" '+disabled+' class="btn btn-danger btn-xs my-btn btn-flat" onclick="del(' + mdata.id + ')">删除</button>';
 
                     return html;
                 },
@@ -164,14 +165,17 @@
                 closeLayer(add_admin);
             });
             $("#submit-form").on("click", function () {
-                doSubmit(add_admin)
+                doSubmit(id, add_admin)
             });
         }, 'json');
     }
-    function doSubmit(add_admin) {
-        var obj = $("#form");
+    function doSubmit(id, add_admin) {
+        var obj = $("#form"), action = 'add_op';
         loadT = layer.msg('正在提交数据...', { time: 0, icon: 16, shade: [0.3, '#000'] });
-        $.post(siteUrl+"/admin/add_op", obj.serialize(), function (res) {
+        if (id > 0) {
+            action = 'edit_op';
+        }
+        $.post(siteUrl+"/admin/"+action, obj.serialize(), function (res) {
             if (res.code == 0) {
                 layer.msg(res.msg, {icon: 1});
                 closeLayer(add_admin);
@@ -208,7 +212,7 @@
     }
     function doDelete(id, delete_admin) {
         loadT = layer.msg('正在提交数据...', { time: 0, icon: 16, shade: [0.3, '#000'] });
-        $.get(siteUrl+"/admin/delete?id="+id, function (res) {
+        $.get(siteUrl+"/admin/delete_op?id="+id, function (res) {
             if (res.code == 0) {
                 layer.msg(res.msg, {icon: 1});
                 closeLayer(delete_admin);

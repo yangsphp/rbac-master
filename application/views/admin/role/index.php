@@ -11,30 +11,34 @@
 <section class="content">
     <div class="row">
         <div class="col-xs-12">
-            <div class="box box-primary">
-                <div class="box-header" style="border-bottom: 1px solid #ddd;padding-top: 10px;">
-                    <h3 class="box-title">
-                        <button class="btn btn-primary btn-xs" onclick="showModal()">
-                            <i class="fa fa-plus"></i>
-                            添加角色
-                        </button>
-                    </h3>
-                    <div class="box-tools" style="padding: 10px">
-                        <div class="input-group">
-                            <input type="text" id="keyword" name="name" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search">
-                            <div class="input-group-btn">
-                                <button class="btn btn-sm btn-default" onclick="search()"><i class="fa fa-search"></i></button>
-                            </div>
+            <div class="box box-solid">
+                <div class="box-body">
+                    <button class="btn btn-primary btn-sm btn-flat" onclick="showModal()">
+                        <i class="fa fa-plus"></i>
+                        添加角色
+                    </button>
+                    <div class="input-group" style="display: inline-flex;float:right;">
+                        <input type="text" id="keyword" name="table_search" class="form-control input-sm pull-right"
+                               style="width: 150px;" placeholder="Search">
+                        <div class="input-group-btn">
+                            <button class="btn btn-sm btn-default" onclick="search()"><i class="fa fa-search"></i>
+                            </button>
                         </div>
                     </div>
                 </div>
-
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12">
+            <div class="box box-solid">
                 <div class="box-body">
                     <table id="roleTable" class="table table-hover radius" cellspacing="0" width="100%">
                         <thead>
                         <tr>
                             <th>ID</th>
                             <th>名称</th>
+                            <th>人数</th>
                             <th>创建时间</th>
                             <th width="150">操作</th>
                         </tr>
@@ -43,7 +47,7 @@
 
                         </tbody>
                     </table>
-                </div><!-- /.box-body-->
+                </div>
             </div>
         </div>
     </div>
@@ -91,15 +95,17 @@
             }, {
                 data: "name",
             }, {
+                data: "number",
+            }, {
                 data: "date_entered",
             }, {
                 data: function (mdata) {
                     var html = '', disabled = "";
-                    if (mdata.id == 1){
+                    if (mdata.id == 1) {
                         disabled = "disabled='true'"
                     }
-                    html += ' <button type="button" '+disabled+' class="btn btn-info btn-xs my-btn" onclick="showModal(' + mdata.id + ')">修改</button>';
-                    html += ' <button type="button" '+disabled+' class="btn btn-danger btn-xs my-btn" onclick="del(' + mdata.id + ')">删除</button>';
+                    html += ' <button type="button" ' + disabled + ' class="btn btn-info btn-xs my-btn btn-flat" onclick="showModal(' + mdata.id + ')">修改</button>';
+                    html += ' <button type="button" ' + disabled + ' class="btn btn-danger btn-xs my-btn btn-flat" onclick="del(' + mdata.id + ')">删除</button>';
                     return html;
                 },
                 orderable: false
@@ -130,9 +136,9 @@
         initTable.api().ajax.reload();
     }
 
-    function showModal(id=0) {
+    function showModal(id = 0) {
         showLoading();
-        $.get(siteUrl + "/role/add?id="+id, function (data) {
+        $.get(siteUrl + "/role/add?id=" + id, function (data) {
             hideLoading();
             var add_role = layer.open({
                 type: 1,
@@ -152,19 +158,23 @@
                 closeLayer(add_role);
             });
             $("#submit-form").on("click", function () {
-                doSubmit(add_role)
+                doSubmit(id, add_role)
             });
         }, 'json');
     }
-    function doSubmit(add_role) {
-        var obj = $("#form");
-        loadT = layer.msg('正在提交数据...', { time: 0, icon: 16, shade: [0.3, '#000'] });
-        $.post(siteUrl+"/role/add_op", obj.serialize(), function (res) {
+
+    function doSubmit(id, add_role) {
+        var obj = $("#form"), action = 'add_op';
+        loadT = layer.msg('正在提交数据...', {time: 0, icon: 16, shade: [0.3, '#000']});
+        if (id > 0) {
+            action = 'edit_op';
+        }
+        $.post(siteUrl + "/role/" + action, obj.serialize(), function (res) {
             if (res.code == 0) {
                 layer.msg(res.msg, {icon: 1});
                 closeLayer(add_role);
                 initTable.api().draw(false);
-            }else {
+            } else {
                 layer.msg(res.msg, {icon: 2});
             }
         }, "json");
@@ -194,14 +204,15 @@
             }
         });
     }
+
     function doDelete(id, delete_role) {
-        loadT = layer.msg('正在提交数据...', { time: 0, icon: 16, shade: [0.3, '#000'] });
-        $.get(siteUrl+"/role/delete?id="+id, function (res) {
+        loadT = layer.msg('正在提交数据...', {time: 0, icon: 16, shade: [0.3, '#000']});
+        $.get(siteUrl + "/role/delete_op?id=" + id, function (res) {
             if (res.code == 0) {
                 layer.msg(res.msg, {icon: 1});
                 closeLayer(delete_role);
                 initTable.api().draw(false);
-            } else{
+            } else {
                 layer.msg(res.msg, {icon: 2});
             }
         }, "json");

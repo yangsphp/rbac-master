@@ -530,3 +530,5 @@ $config['proxy_ips'] = '';
 $config['auth'] = "auth";
 $config['role'] = "role";
 $config['admin'] = "admin";
+$config['back_up'] = "back_up";
+$config['admin_log'] = "admin_log";

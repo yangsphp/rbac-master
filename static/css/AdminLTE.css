@@ -17,7 +17,7 @@ body {
   font-family: 'Source Sans Pro', sans-serif;
   -webkit-font-smoothing: antialiased;
   min-height: 100%;
-  background: #f9f9f9;
+  background: #eee;
 }
 a {
   color: #3c8dbc;
@@ -112,7 +112,7 @@ body.fixed .wrapper {
 /* Content */
 .content {
   padding: 20px 15px;
-  background: #f9f9f9;
+  background: #eee;
 }
 /* Utility */
 /* H1 - H6 font */

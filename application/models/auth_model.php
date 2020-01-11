@@ -17,10 +17,14 @@ class Auth_model extends Common_model
         $this->_auth = $this->config->item("auth");
     }
 
-    public function get()
+    public function get($flag = true)
     {
         $data = $this->db->order_by("sort", "asc")->get($this->_auth)->result_array();
-        return $this->getCategory2($data);
+        if ($flag === true){
+            return $this->getCategory2($data);
+        }else{
+            return $data;
+        }
     }
 
     public function edit($id)

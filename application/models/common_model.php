@@ -10,9 +10,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Common_model extends CI_Model
 {
+    private $_admin_log = null;
     function __construct()
     {
         parent::__construct();
+        $this->_admin_log = $this->config->item("admin_log");
     }
 
     /**
@@ -120,5 +122,11 @@ class Common_model extends CI_Model
     public function is_ip($ip)
     {
         return preg_match("/^([0-9]{1,3}\.){3}[0-9]{1,3}$/", $ip);
+    }
+
+    public function insertAdminLog($data)
+    {
+        $data['ip'] = $this->getClientIp();
+        return $this->db->insert($this->_admin_log, $data);
     }
 }

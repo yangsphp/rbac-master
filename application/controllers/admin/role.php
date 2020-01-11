@@ -28,7 +28,6 @@ class Role extends MY_Controller
     }
     public function index()
     {
-        //echo md5(md5("admin")."ABCDE");exit();
         $htm["layout"] = $this->load->view('role/index', null, true);
         $this->load->view('frame',$htm);
     }
@@ -87,7 +86,12 @@ class Role extends MY_Controller
         }
     }
 
-    public function delete() {
+    public function edit_op()
+    {
+        $this->add_op();
+    }
+
+    public function delete_op() {
         $id = $this->input->get("id");
         $result = $this->role_model->delete($id);
         if ($result['code'] == 0) {

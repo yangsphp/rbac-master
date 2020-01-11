@@ -34,6 +34,12 @@ class Role_model extends Common_model
         $select = '*';
         $order = array("id", " desc");
         $arr = $this->getAllCommon($this->_role, $where, $select, '', $order, $condition);
+        if ($start != '') {
+            foreach ($arr as $k => $v)
+            {
+                $arr[$k]['number'] = $this->db->where("role_id = {$v['id']} and status = 1")->count_all_results($this->_admin);
+            }
+        }
         return $arr;
     }
 

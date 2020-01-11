@@ -36,7 +36,7 @@
     </div>
     <div class="line ">
         <span class="tname">是否菜单</span>
-        <div class="info-r ">
+        <div class="info-r " style="padding-top: 6px;">
             <input name="post[is_menu]" id="is_menu_1" <?php echo $data['is_menu']==1?'checked':''?> class="bt-input-text mr5 minimal-blue" type="radio" style="width:30px" value="1">
             &nbsp;
             <label for="is_menu_1" style="vertical-align: -2px;cursor: pointer"> 是</label>

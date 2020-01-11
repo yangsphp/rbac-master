@@ -94,7 +94,12 @@ class Auth extends MY_Controller
         }
     }
 
-    public function delete() {
+    public function edit_op()
+    {
+        $this->add_op();
+    }
+
+    public function delete_op() {
         $id = $this->input->get("id");
         $result = $this->auth_model->delete($id);
         if ($result['code'] == 0) {

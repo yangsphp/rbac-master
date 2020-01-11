@@ -81,8 +81,28 @@ class Admin_model extends Common_model
             );
             //修改登录时间和ip地址与登录日志
             $this->db->update($this->_admin, $update, "id = ".$admin['id']);
+            //插入登录日志
+            $data = array(
+                'user_id' => $admin['id'],
+                '_id' => isset($_REQUEST['id']) ? $_REQUEST['id'] : 0,
+                'name' => "登录后台",
+                'date_entered' => date("Y-m-d H:i:s")
+            );
+            $this->insertAdminLog($data);
             return true;
         }
         return false;
+    }
+
+    public function logout($user)
+    {
+        //插入退出登录日志
+        $data = array(
+            'user_id' => $user['userid'],
+            '_id' => isset($_REQUEST['id']) ? $_REQUEST['id'] : 0,
+            'name' => "退出登录",
+            'date_entered' => date("Y-m-d H:i:s")
+        );
+        return $this->insertAdminLog($data);
     }
 }
