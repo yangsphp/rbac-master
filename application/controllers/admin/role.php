@@ -28,9 +28,22 @@ class Role extends MY_Controller
     }
     public function index()
     {
+        $add_flag = $this->checkUserButtonPrivilege('admin/role/add_op');
+        $edit_flag = $this->checkUserButtonPrivilege('admin/role/edit_op');
+        $delete_flag = $this->checkUserButtonPrivilege('admin/role/delete_op');
+        $data['add_flag'] = $add_flag;
+        $data['edit_flag'] = $edit_flag;
+        $data['delete_flag'] = $delete_flag;
+        $htm["layout"] = $this->load->view('role/index', $data, true);
+        $this->load->view('frame',$htm);
+    }
+
+    public function test()
+    {
         $htm["layout"] = $this->load->view('role/index', null, true);
         $this->load->view('frame',$htm);
     }
+
     public function add()
     {
         $id = $this->input->get("id");

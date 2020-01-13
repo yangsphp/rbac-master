@@ -39,7 +39,21 @@ class Database extends MY_Controller
 
     public function index()
     {
-        $htm["layout"] = $this->load->view('database/index', null, true);
+        $repair_flag = $this->checkUserButtonPrivilege('admin/database/repair');
+        $optimize_flag = $this->checkUserButtonPrivilege('admin/database/optimize');
+        $edit_flag = $this->checkUserButtonPrivilege('admin/database/edit_op');
+        $backup_flag = $this->checkUserButtonPrivilege('admin/database/backup');
+        $callback_flag = $this->checkUserButtonPrivilege('admin/database/callback');
+        $download_flag = $this->checkUserButtonPrivilege('admin/database/download');
+        $delete_flag = $this->checkUserButtonPrivilege('admin/database/delete_op');
+        $data['repair_flag'] = $repair_flag;
+        $data['edit_flag'] = $edit_flag;
+        $data['optimize_flag'] = $optimize_flag;
+        $data['backup_flag'] = $backup_flag;
+        $data['callback_flag'] = $callback_flag;
+        $data['download_flag'] = $download_flag;
+        $data['delete_flag'] = $delete_flag;
+        $htm["layout"] = $this->load->view('database/index', $data, true);
         $this->load->view('frame', $htm);
     }
 

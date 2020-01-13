@@ -11,11 +11,13 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class Database_model extends Common_model
 {
     private $_back_up = null;
+    private $_admin = null;
 
     function __construct()
     {
         parent::__construct();
         $this->_back_up = $this->config->item("back_up");
+        $this->_admin = $this->config->item("admin");
     }
 
     public function get($flag, $start = '', $limit = '')
@@ -57,11 +59,16 @@ class Database_model extends Common_model
             $where = '1=1';
 
             if ($keyword) {
-                $where .= ' and name like "%' . $keyword . '%"';
+                $where .= ' and b.name like "%' . $keyword . '%"';
             }
-            $select = '*';
-            $order = array("id", " desc");
-            $arr = $this->getAllCommon($this->_back_up, $where, $select, '', $order, $condition);
+            $select = 'b.*, a.username';
+            $order = array("b.id", " desc");
+            $join[0] = array(
+                $this->_admin." as a",
+                "a.id = b.user_id",
+                "left"
+            );
+            $arr = $this->getAllCommon($this->_back_up." as b", $where, $select, $join, $order, $condition);
             return array("data" => $arr);
         }
 
@@ -131,7 +138,9 @@ class Database_model extends Common_model
         } else {
             $file_size = $file_size . "KB";
         }
+        $user = $this->session->userdata("user");
         $data = array(
+            'user_id' => $user['userid'],
             'name' => $filename,
             'table' => implode(",", $tables),
             'path' => $path,
@@ -161,7 +170,7 @@ class Database_model extends Common_model
         $back = $this->getBackUpById($id);
         $res = $this->db->delete($this->_back_up, array("id" => $id));
         if ($res) {
-            @unlink(FCPATH.$back['path']);
+            @unlink(FCPATH . $back['path']);
             return true;
         }
         return false;

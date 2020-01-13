@@ -33,6 +33,7 @@
                             <th>图标</th>
                             <th>路径</th>
                             <th>排序</th>
+                            <th>类型</th>
                             <th>状态</th>
                             <th>创建时间</th>
                             <th width="120">操作</th>
@@ -87,6 +88,14 @@
                 data: "url",
             }, {
                 data: "sort",
+            }, {
+                data: function (mdata) {
+                    let menu_name = '<span class="label label-default btn-flat">按钮</span>';
+                    if (mdata.is_menu == 1) {
+                        menu_name = '<span class="label label-danger">菜单</span>';
+                    }
+                    return menu_name;
+                },
             }, {
                 data: function (mdata) {
                     if (mdata.status == 0) {

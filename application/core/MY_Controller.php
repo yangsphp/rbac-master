@@ -88,28 +88,66 @@ class MY_Controller extends CI_Controller
             $where .= " and id in({$role['auth']})";
         }
         $data = $this->db->where($where)->order_by("sort", "asc")->get($_auth)->result_array();
-        $menuList = $this->getMenuTree($data);
+        $menuHtml = $this->getMenuHtml($data);
+        $menuUrl = array();
+        $where = "is_menu=0 and status=1";
+        if ($user['userid'] != 1) {
+            $where .= " and id in({$role['auth']})";
+        }
+        $data = $this->db->where($where)->order_by("sort", "asc")->get($_auth)->result_array();
+        foreach ($data as $k => $v)
+        {
+            $menuUrl[] = $v['url'];
+        }
         $user['role_name'] = $role['role_name'];
-        $this->session->set_userdata("menuList", $menuList);
+        $this->session->set_userdata("menuUrl", $menuUrl);
+        $this->session->set_userdata("menuHtml", $menuHtml);
         $this->session->set_userdata("user", $user);
     }
 
-    protected function getMenuTree($data, $parent_id = 0)
+    protected function getMenuHtml($data, $parent_id = 0)
     {
-        $tree = array();
+        $uri = strtolower($this->uri->uri_string());
+        $html = "";
         foreach ($data as $k => $v) {
             if ($v["parent_id"] == $parent_id) {
-                unset($data[$k]);
-                if (!empty($data)) {
-                    $children = $this->getMenuTree($data, $v["id"]);
-                    if (!empty($children)) {
-                        $v["submenu"] = $children;
-                    }
+                $childHtml = $this->getMenuHtml($data, $v['id']);
+                $right = $treeview  = $active = "";
+                $url = site_url($v['url']);
+                if ($childHtml) {
+                    $right = '<i class="fa pull-right fa-angle-right"></i>';
+                    $treeview = "treeview";
+                    $url = "#";
                 }
-                $tree[] = $v;
+                if (strtolower($v['url']) == $uri) {
+                    $active = "active";
+                }
+                $html .= "<li data-id='".$v['id']."' data-pid='".$v['parent_id']."' class='".$treeview." ".$active."'><a href='".$url."'><i class='".$v['icon']."'></i><span>".$v['name']."</span>".$right."</a>";
+                $html .= $childHtml;
+                $html = $html."</li>";
             }
         }
-        return $tree;
+        if ($parent_id == 0) {
+            $ulClass = "sidebar-menu";
+        }else{
+            $ulClass = "treeview-menu";
+        }
+        return $html ? '<ul id="ul-'.$parent_id.'" class="'.$ulClass.'">'.$html.'</ul>' : $html ;
+    }
+
+    /**
+     * 用户按钮权限判断
+     * @param $url
+     * @return bool
+     */
+    public function checkUserButtonPrivilege($url)
+    {
+        $menuUrl = $this->session->userdata("menuUrl");
+        if (in_array($url, $menuUrl))
+        {
+            return true;
+        }
+        return false;
     }
 }
 

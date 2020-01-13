@@ -14,16 +14,17 @@
         <div class="col-xs-12">
             <div class="box box-solid">
                 <div class="box-body">
+                    <?php if ($clear_flag){?>
                     <button class="btn btn-danger btn-sm btn-flat" onclick="del()">
                         <i class="fa fa-trash-o"></i>
                         清理日志
                     </button>
-
+                    <?php }?>
                     <div class="input-group" style="display: inline-flex;float:right;">
                         <input type="text" id="keyword" name="table_search" class="form-control input-sm pull-right"
                                style="width: 150px;" placeholder="名称/管理员/IP">
                         <div class="input-group-btn">
-                            <button class="btn btn-sm btn-default" onclick="search()"><i class="fa fa-search"></i>
+                            <button class="btn btn-sm btn-primary" onclick="search()"><i class="fa fa-search"></i>
                             </button>
                         </div>
                     </div>

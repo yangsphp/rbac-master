@@ -13,14 +13,16 @@
         <div class="col-xs-12">
             <div class="box box-solid">
                 <div class="box-body">
+                    <?php if ($add_flag){?>
                     <button class="btn btn-primary btn-sm btn-flat" onclick="showModal()">
                         <i class="fa fa-plus"></i>
                         添加管理员
                     </button>
+                    <?php }?>
                     <div class="input-group" style="display: inline-flex;float:right;">
                             <input type="text" id="keyword" name="table_search" class="form-control input-sm pull-right" style="width: 150px;" placeholder="Search">
                             <div class="input-group-btn">
-                                <button class="btn btn-sm btn-default" onclick="search()"><i class="fa fa-search"></i></button>
+                                <button class="btn btn-sm btn-primary " onclick="search()"><i class="fa fa-search"></i></button>
                             </div>
                         </div>
                 </div>
@@ -109,8 +111,11 @@
                     if (mdata.id == 1){
                         disabled = "disabled='true'"
                     }
+                    <?php if($edit_flag){?>
                     html += ' <button type="button" '+disabled+' class="btn btn-info btn-xs my-btn btn-flat" onclick="showModal(' + mdata.id + ')">修改</button>';
+                    <?php }if ($delete_flag){?>
                     html += ' <button type="button" '+disabled+' class="btn btn-danger btn-xs my-btn btn-flat" onclick="del(' + mdata.id + ')">删除</button>';
+                    <?php }?>
 
                     return html;
                 },

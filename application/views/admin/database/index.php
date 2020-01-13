@@ -46,10 +46,12 @@
         </div>
     </div>
 
+    <?php if ($backup_flag){?>
     <div class="row">
         <div class="col-xs-12">
             <div class="box box-solid">
                 <div class="box-body">
+
                     <button class="btn btn-danger btn-sm btn-flat" style="margin-right: 10px;"
                             onclick="backUpDatabase(1)">
                         <i class="fa fa-plus"></i>
@@ -63,7 +65,7 @@
             </div>
         </div>
     </div>
-
+    <?php }?>
     <div class="row">
         <div class="col-xs-12">
             <div class="box box-solid">
@@ -74,6 +76,7 @@
                         <tr>
                             <th>SQL文件</th>
                             <th>文件大小</th>
+                            <th>操作人</th>
                             <th>备份时间</th>
                             <th width="150">操作</th>
                         </tr>
@@ -153,10 +156,13 @@
             }, {
                 data: function (mdata) {
                     let html = '';
+                    <?php if ($repair_flag){?>
                     html += ' <button type="button" class="btn btn-info btn-xs my-btn btn-flat" onclick="repair(\'' + mdata.name + '\')">修复</button>';
+                    <?php }if ($optimize_flag){?>
                     html += ' <button type="button" class="btn btn-success btn-xs my-btn btn-flat" onclick="optimize(\'' + mdata.name + '\')">优化</button>';
+                    <?php }if ($edit_op){?>
                     html += ' <button type="button" class="btn btn-danger btn-xs my-btn btn-flat" onclick="dict(\'' + mdata.name + '\')">字典</button>';
-
+                    <?php }?>
                     return html;
                 },
                 orderable: false
@@ -223,14 +229,19 @@
             }, {
                 data: "size",
             }, {
+                data: "username",
+            }, {
                 data: "date_entered",
             }, {
                 data: function (mdata) {
                     let html = '';
+                    <?php if ($callback_flag){?>
                     html += ' <button type="button" class="btn btn-info btn-xs my-btn btn-flat" onclick="callBack(\'' + mdata.id + '\')">还原</button>';
+                    <?php }if ($download_flag){?>
                     html += ' <button type="button" class="btn btn-success btn-xs my-btn btn-flat" onclick="downLoad(\''+mdata.name+'\',\'' + baseUrl + mdata.path + '\')">下载</button>';
+                    <?php }if ($delete_flag){?>
                     html += ' <button type="button" class="btn btn-danger btn-xs my-btn btn-flat" onclick="delBack(\'' + mdata.id + '\')">删除</button>';
-
+                    <?php }?>
                     return html;
                 },
                 orderable: false

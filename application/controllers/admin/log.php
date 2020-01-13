@@ -28,7 +28,9 @@ class Log extends MY_Controller
     }
     public function index()
     {
-        $htm["layout"] = $this->load->view('log/index', null, true);
+        $clear_flag = $this->checkUserButtonPrivilege('admin/log/clear');
+        $data['clear_flag'] = $clear_flag;
+        $htm["layout"] = $this->load->view('log/index', $data, true);
         $this->load->view('frame',$htm);
     }
 

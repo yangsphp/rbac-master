@@ -28,7 +28,13 @@ class Admin extends MY_Controller
     }
     public function index()
     {
-        $htm["layout"] = $this->load->view('admin/index', null, true);
+        $add_flag = $this->checkUserButtonPrivilege('admin/admin/add_op');
+        $edit_flag = $this->checkUserButtonPrivilege('admin/admin/edit_op');
+        $delete_flag = $this->checkUserButtonPrivilege('admin/admin/delete_op');
+        $data['add_flag'] = $add_flag;
+        $data['edit_flag'] = $edit_flag;
+        $data['delete_flag'] = $delete_flag;
+        $htm["layout"] = $this->load->view('admin/index', $data, true);
         $this->load->view('frame',$htm);
     }
 

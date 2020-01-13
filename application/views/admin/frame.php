@@ -238,10 +238,18 @@
         .right-side > .content-header {
             background: #fff !important;
         }
+        .box .box-body{
+            min-height: 50px;
+        }
+        .navbar-nav > .user-menu > .dropdown-menu
+        {
+            width: 80px;
+        }
     </style>
 </head>
 <?php
 $menuList = $this->session->userdata("menuList");
+$menuHtml = $this->session->userdata("menuHtml");
 $user = $this->session->userdata("user");
 ?>
 <body class="skin-blue fixed">
@@ -467,35 +475,11 @@ $user = $this->session->userdata("user");
                         <span><?php echo $user['username'] ?> <i class="caret"></i></span>
                     </a>
                     <ul class="dropdown-menu">
-                        <!-- User image -->
-                        <li class="user-header bg-light-blue">
-                            <img src="<?php echo base_url() ?>static/img/avatar3.png" class="img-circle"
-                                 alt="User Image"/>
-                            <p>
-                                <?php echo $user['username'] ?> - <?php echo $user['role_name'] ?>
-                                <small>Member since Nov. 2012</small>
-                            </p>
+                        <li class="user-body" style="padding: 0;border: 0;">
+                            <a href="#" class="btn btn-primary btn-flat" style="padding: 10px 0;color: #fff;">个人中心</a>
                         </li>
-                        <!-- Menu Body -->
-                        <!--                        <li class="user-body">-->
-                        <!--                            <div class="col-xs-4 text-center">-->
-                        <!--                                <a href="#">Followers</a>-->
-                        <!--                            </div>-->
-                        <!--                            <div class="col-xs-4 text-center">-->
-                        <!--                                <a href="#">Sales</a>-->
-                        <!--                            </div>-->
-                        <!--                            <div class="col-xs-4 text-center">-->
-                        <!--                                <a href="#">Friends</a>-->
-                        <!--                            </div>-->
-                        <!--                        </li>-->
-                        <!-- Menu Footer-->
-                        <li class="user-footer">
-                            <div class="pull-left">
-                                <a href="#" class="btn btn-default btn-flat">个人中心</a>
-                            </div>
-                            <div class="pull-right">
-                                <a href="<?php echo site_url('admin/login/logout') ?>" class="btn btn-default btn-flat">退出登录</a>
-                            </div>
+                        <li class="user-body" style="padding: 0;border: 0;">
+                            <a href="<?php echo site_url('admin/login/logout') ?>" style="padding: 10px 0;color: #fff;" class="btn btn-primary btn-flat">退出登录</a>
                         </li>
                     </ul>
                 </li>
@@ -509,45 +493,7 @@ $user = $this->session->userdata("user");
         <!-- sidebar: style can be found in sidebar.less -->
         <section class="sidebar">
             <!-- sidebar menu: : style can be found in sidebar.less -->
-            <ul class="sidebar-menu">
-                <li class="active">
-                    <a href="<?php echo site_url('admin/index') ?>">
-                        <i class="fa fa-dashboard"></i> <span>控制台</span>
-                    </a>
-                </li>
-                <?php if ($menuList) {
-                    foreach ($menuList as $k => $v) { ?>
-                        <li id="menu-<?php echo $k ?>" class="<?php if (isset($v['submenu'])) {
-                            echo 'treeview';
-                        } ?>">
-                            <a href="<?php if (empty($v['url'])) {
-                                echo '#';
-                            } else {
-                                echo site_url($v['url']);
-                            } ?>">
-                                <i class="<?php echo $v['icon'] ?>"></i>
-                                <span><?php echo $v['name'] ?></span>
-                                <?php
-                                if (isset($v['submenu'])) {
-                                    echo '<i class="fa fa-angle-left pull-right"></i>';
-                                }
-                                ?>
-                            </a>
-                            <?php if (isset($v['submenu'])) { ?>
-                                <ul class="treeview-menu">
-                                    <?php foreach ($v['submenu'] as $k1 => $v1) { ?>
-                                        <li>
-                                            <a href="<?php echo site_url($v1['url']) . '?_=' . $k . '_' . $k1 ?>"><i
-                                                        class="<?php echo $v1['icon'] ?>"></i><?php echo $v1['name'] ?>
-                                            </a>
-                                        </li>
-                                    <?php } ?>
-                                </ul>
-                            <?php } ?>
-                        </li>
-                    <?php }
-                } ?>
-            </ul>
+            <?php echo $menuHtml?>
         </section>
         <!-- /.sidebar -->
     </aside>
@@ -602,16 +548,21 @@ $user = $this->session->userdata("user");
 
 <script type="text/javascript">
     // 设置选中导航
-    setNavBarSelect();
+    setMenu($(".sidebar-menu li.active"));
 
-    function setNavBarSelect() {
-        var navIndex = getQueryString("_");
-        if (navIndex) {
-            var navArr = navIndex.split("_");
-            $(".sidebar-menu li.active").removeClass('active');
-            $("#menu-" + navArr[0]).addClass("active");
-            $("#menu-" + navArr[0] + " .treeview-menu li").eq(navArr[1]).addClass("active");
+    function setMenu(obj) {
+        let oParent = obj.parent();
+        let parentTagName = oParent[0].tagName.toLowerCase();
+        if (parentTagName == 'ul') {
+            if (oParent.hasClass('sidebar-menu')) {
+                return;
+            }
+            oParent.show();
         }
+        else if (parentTagName == 'li') {
+            oParent.addClass('active');
+        }
+        setMenu(oParent);
     }
 
     // 获取queryString
