@@ -22,7 +22,7 @@
                 <tr>
                     <td><input type="checkbox" name="post[auth][]" <?php if (@in_array($v['id'], $data['auth'])){echo "checked='true'";}?> value="<?php echo $v['id']?>" onclick="selectAll(this, <?php echo $v['id']?>)" name="" id="role_<?php echo $v['id']?>"><label for="role_<?php echo $v['id']?>">&nbsp;<?php echo $v['name']?></label></td>
                     <td>
-                        <?php if ($v['_child']){foreach ($v['_child'] as $k1 => $v1){?>
+                        <?php if (@$v['_child']){foreach ($v['_child'] as $k1 => $v1){?>
                         <div>
                             <input type="checkbox" onclick="selectOne(this, <?php echo $v['id']?>)" name="post[auth][]" <?php if (@in_array($v1['id'], $data['auth'])){echo "checked='true'";}?> class="child_<?php echo $v['id']?>" data-parentid="<?php echo $v['id']?>" id="role_<?php echo $v1['id']?>" value="<?php echo $v1['id']?>"><label for="role_<?php echo $v1['id']?>"> &nbsp;<?php echo $v1['name']?></label>
                         </div>
